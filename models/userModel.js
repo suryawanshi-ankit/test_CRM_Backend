@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const joi = require('joi');
+const Joi = require('joi');
 
 const userSchema = new mongoose.Schema({
   first_name: {
@@ -48,13 +48,13 @@ const userSchema = new mongoose.Schema({
     required: true,
     maxlength: 500,
   },
-  resume: {
-    type: File,
-    required: true,
-  },
+  // resume: {
+  //   type: String,
+  //   // required: true,
+  // },
 });
 
-const userValidation = (user) => {
+function userValidation(user) {
   const schema = {
     first_name: Joi.string().max(40).required(),
     last_name: Joi.string().max(40).required(),
@@ -63,13 +63,13 @@ const userValidation = (user) => {
     gender: Joi.number().max(2).required(),
     specialization: Joi.string().max(200).required(), 
     work_ex_year: Joi.string().max(30).required(),
-    candidate_dob: Joi.Date().required(),
+    candidate_dob: Joi.string().required(),
     address: Joi.string().max(500).required(),
-    resume: Joi.File().required(),
+    // resume: Joi.string(),
   }
 
-  return joi.validate(user, schema);
+  return Joi.validate(user, schema);
 }
 
-exports.User = mongoose.module('User', userSchema);
-exports.userValidation = userValidation;
+exports.User = mongoose.model('User', userSchema);
+exports.validateUser = userValidation;
