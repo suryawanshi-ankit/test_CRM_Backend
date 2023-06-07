@@ -48,10 +48,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     maxlength: 500,
   },
-  // resume: {
-  //   type: String,
-  //   // required: true,
-  // },
+  resume: {
+    type: [String, null],
+    // required: true,
+  },
 });
 
 function userValidation(user) {
@@ -65,7 +65,7 @@ function userValidation(user) {
     work_ex_year: Joi.string().max(30).required(),
     candidate_dob: Joi.string().required(),
     address: Joi.string().max(500).required(),
-    // resume: Joi.string(),
+    resume: Joi.string().allow(null).required(),
   }
 
   return Joi.validate(user, schema);
